@@ -526,85 +526,107 @@ ______________________________
         }
 
         function createCanvasWithTable() {
-            const resultText = document.getElementById('result').value;
-        
-            // Parse the Arabic text into a table structure
-            const rows = resultText.split('\n').map(line => line.split(':'));
+            // Table data
+            const headers = ['التاريخ', 'البيع', 'الشراء'];
+            const rows = [
+                ['18k', '150', '140'],
+                ['21k', '180', '170'],
+                ['أونصة الذهب المحلي', '7200', '7100'],
+                ['أونصة الذهب فالكمبي', '7400', '7300'],
+                ['جنيه جورج', '2000', '1950'],
+                ['جنيه عثماني', '2200', '2150']
+            ];
         
             // Create the canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
         
-            // Set canvas dimensions dynamically based on device screen size
-            const deviceWidth = window.innerWidth * 0.8; // 80% of screen width
-            const deviceHeight = window.innerHeight * 0.8; // 80% of screen height
-            canvas.width = deviceWidth;
-            canvas.height = deviceHeight;
+            // Set canvas dimensions for Instagram (1080x1920 portrait)
+            canvas.width = 1080;
+            canvas.height = 1920;
         
             // Set background color
-            ctx.fillStyle = "#F2F0EF"; // Light background
+            ctx.fillStyle = "#FFFFFF"; // White background
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const img = new Image();
+            img.src = 'SKAF.png'; // Replace with the URL or path to your image
+
+            img.onload = function () {
+                // Draw the image at the top of the canvas with more padding
+                const imgWidth = 400; // Desired width of the image
+                const imgHeight = 200; // Desired height of the image
+                const topPadding = 100; // Increased padding from the top
+                ctx.drawImage(img, (canvas.width - imgWidth) / 2, topPadding, imgWidth, imgHeight);
+            };
+                 
         
             // Set general text properties
-            ctx.font = "20px Arial";
-            ctx.fillStyle = "#333"; // Text color
+            ctx.font = "36px Arial";
+            ctx.fillStyle = "#000000"; // Text color
             ctx.textAlign = "center";
             ctx.direction = "rtl"; // RTL for Arabic text
         
             // Title
-            ctx.font = "bold 28px Arial";
-            ctx.fillText("حساب سعر الذهب", canvas.width / 2, 50);
+            ctx.font = "bold 48px Arial";
+           // ctx.fillText("حساب سعر الذهب", canvas.width / 2, 100);
         
             // Table properties
-            const tableStartX = 50;
-            const tableStartY = 100;
-            const tableWidth = canvas.width - 100;
-            const rowHeight = 40;
-            const colWidth = tableWidth / 2; // Two columns: labels and values
+            const tableStartX = 100; // Padding on the left
+            const tableWidth = canvas.width - 200; // Width accounting for padding
+            const tableStartY = 540;
+            const rowHeight = 100;
+            const colWidth = tableWidth / 3; // Three columns
         
-            // Draw table rows and text
-            rows.forEach((row, index) => {
-                const yPosition = tableStartY + index * rowHeight;
+            // Draw table headers
+            headers.forEach((header, index) => {
+                const xPosition = tableStartX + index * colWidth;
+                ctx.fillStyle = "#0047AB"; // Blue background
+                ctx.fillRect(xPosition, tableStartY, colWidth, rowHeight);
         
-                // Draw the row background
-                ctx.fillStyle = index % 2 === 0 ? "#e6e6e6" : "#ffffff"; // Alternating row colors
-                ctx.fillRect(tableStartX, yPosition, tableWidth, rowHeight);
+                ctx.fillStyle = "#FFFFFF"; // White text
+                ctx.font = "bold 36px Arial";
+                ctx.fillText(header, xPosition + colWidth / 2, tableStartY + rowHeight / 2 + 12);
+            });
         
-                // Draw the label (right column)
-                ctx.fillStyle = "#333";
-                ctx.textAlign = "right";
-                ctx.fillText(row[0], tableStartX + tableWidth - 10, yPosition + rowHeight / 2 + 8);
+            // Draw table rows
+            rows.forEach((row, rowIndex) => {
+                row.forEach((cell, colIndex) => {
+                    const xPosition = tableStartX + colIndex * colWidth;
+                    const yPosition = tableStartY + (rowIndex + 1) * rowHeight;
         
-                // Draw the value (left column)
-                if (row[1]) {
-                    ctx.textAlign = "left";
-                    ctx.fillText(row[1], tableStartX + 10, yPosition + rowHeight / 2 + 8);
-                }
+                    // Alternate row background color
+                    ctx.fillStyle = rowIndex % 2 === 0 ? "#F0F8FF" : "#FFFFFF"; // Light blue or white
+                    ctx.fillRect(xPosition, yPosition, colWidth, rowHeight);
+        
+                    // Draw cell text
+                    ctx.fillStyle = "#000000"; // Black text
+                    ctx.font = "36px Arial";
+                    ctx.fillText(cell, xPosition + colWidth / 2, yPosition + rowHeight / 2 + 12);
+                });
             });
         
             // Draw table borders
-            ctx.strokeStyle = "#333";
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = "#0047AB"; // Blue borders
+            ctx.lineWidth = 3;
+        
+            // Vertical lines
+            for (let i = 0; i <= 3; i++) {
+                const xPosition = tableStartX + i * colWidth;
+                ctx.beginPath();
+                ctx.moveTo(xPosition, tableStartY);
+                ctx.lineTo(xPosition, tableStartY + (rows.length + 1) * rowHeight);
+                ctx.stroke();
+            }
         
             // Horizontal lines
-            rows.forEach((_, index) => {
-                const yPosition = tableStartY + index * rowHeight;
+            for (let i = 0; i <= rows.length + 1; i++) {
+                const yPosition = tableStartY + i * rowHeight;
                 ctx.beginPath();
                 ctx.moveTo(tableStartX, yPosition);
                 ctx.lineTo(tableStartX + tableWidth, yPosition);
                 ctx.stroke();
-            });
-            // Bottom line
-            ctx.beginPath();
-            ctx.moveTo(tableStartX, tableStartY + rows.length * rowHeight);
-            ctx.lineTo(tableStartX + tableWidth, tableStartY + rows.length * rowHeight);
-            ctx.stroke();
-        
-            // Vertical line
-            ctx.beginPath();
-            ctx.moveTo(tableStartX + colWidth, tableStartY);
-            ctx.lineTo(tableStartX + colWidth, tableStartY + rows.length * rowHeight);
-            ctx.stroke();
+            }
         
             // Create a button to download the canvas as an image
             const downloadButton = document.createElement('a');
@@ -616,9 +638,10 @@ ______________________________
         
             // Append the canvas and download button to the container
             const container = document.querySelector('.container');
-    container.appendChild(canvas);
-    container.appendChild(downloadButton);
+            container.appendChild(canvas);
+            container.appendChild(downloadButton);
         }
+        
 
         function showToast(message) {
             const toast = document.getElementById('toast');
