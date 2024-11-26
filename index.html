@@ -456,7 +456,11 @@
             let input1Value = parseFloat(document.getElementById('input1').value);
             let input2Value = parseFloat(document.getElementById('input2').value);
             const gramPrice = ((ouncePrice + input1Value) * 32) /1000;
-
+            //mabi3 se3r + 35)*32 )/995 x 3yar
+            //shira2 -30 )*31.99 x 3yar
+            //lira english   3yar 21 mabi3 * 8 + masna3iye
+            // ottman coin 3yar 31 mabi3 *7.20 + masna3iye
+            //remove rb3
             const price24kBuy = gramPrice;
             const price21kBuy = gramPrice * 0.875;
             const price18kBuy = gramPrice * 0.75;
@@ -579,9 +583,14 @@ ______________________________
                    drawTable(ctx);
                };
            };
+
        
            // Function to draw the table
            function drawTable(ctx) {
+
+
+
+
                const today = new Date();
                const formattedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(today);
        
@@ -598,9 +607,16 @@ ______________________________
        
                // Set general text properties
                ctx.font = "36px bold Arial";
-               ctx.fillStyle = "#000000"; // Text color
+               ctx.fillStyle = "#ffffff"; // Text color
                ctx.textAlign = "center";
                ctx.direction = "rtl"; // RTL for Arabic text
+
+               const text = "Price of Ounce";
+                ctx.fillText(text, 540, 420);
+                const text1 = "2700$";
+                ctx.fillText(text1, 540, 480);
+                const phone = "+96171808465";
+                ctx.fillText(phone, 950, 1850);
        
                // Table properties
                const tableStartX = 100; // Padding on the left
@@ -612,7 +628,7 @@ ______________________________
                // Draw table headers
                headers.forEach((header, index) => {
                    const xPosition = tableStartX + index * colWidth;
-                   ctx.fillStyle = "#F8D210"; // Blue background
+                   ctx.fillStyle = "rgba(248, 210, 16, 0.5)"; // Blue background
                    ctx.fillRect(xPosition, tableStartY, colWidth, rowHeight);
        
                    ctx.fillStyle = "#FFFFFF"; // White text
@@ -632,13 +648,13 @@ ______________________________
        
                        // Draw cell text
                        ctx.fillStyle = "#ffffff"; // Black text
-                       ctx.font = "36px bold Arial";
+                       ctx.font = "36px bold Helvetica";
                        ctx.fillText(cell, xPosition + colWidth / 2, yPosition + rowHeight / 2 + 12);
                    });
                });
        
                // Draw table borders
-               ctx.strokeStyle = "#F8D210"; //border color
+               ctx.strokeStyle = "rgba(248, 210, 16, 0.5)"; //border color
                ctx.lineWidth = 3;
        
                // Vertical lines
