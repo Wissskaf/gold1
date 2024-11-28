@@ -419,7 +419,7 @@
         <h2>Message</h2>
         <textarea id="result"  dir="rtl" readonly oninput="autoResize(this)"></textarea>
         <button  class="copy-btn btn-grad" onclick="copyToClipboard()">نسخ</button>
-        <a href="https://wa.me" target="_blank">
+        <a href="https://wa.me/0096171808465" target="_blank">
         <button class="copy-btn btn-grad"  ><img src="whatsapp.svg"  style="width: 24px; height: 24px; margin-left: 8px; cursor: pointer;" /></button>
         </a>  
         <button class="btn-grad"  onclick="createCanvasWithTable()">Image</button>
@@ -470,25 +470,30 @@
 
             let input1Value = parseFloat(document.getElementById('input1').value);
             let input2Value = parseFloat(document.getElementById('input2').value);
-            const gramPrice = ((ouncePrice + input1Value) * 32) /1000;
-            //mabi3 se3r + 35)*32 )/995 x 3yar
-            //shira2 -30 )*31.99 x 3yar
-            //lira english   3yar 21 mabi3 * 8 + masna3iye
-            // ottman coin 3yar 31 mabi3 *7.20 + masna3iye
-            //remove rb3
+            const gramPrice = ((ouncePrice + input1Value) * 32*1.005) /1000;
+           
             const price24kBuy = gramPrice;
             const price21kBuy = gramPrice * 0.875;
             const price18kBuy = gramPrice * 0.75;
 
-            const gramPriceKaser = ((ouncePrice + input2Value) * 32)/1000;
+            const gramPriceKaser = ((ouncePrice + input2Value) * 31.99)/1000;
 
-            const margin = 5;
+            //const margin = 5;
             const price24kSell = gramPriceKaser;
-            const price21kSell = gramPriceKaser * 0.875;
-            const price18kSell = gramPriceKaser * 0.75; 
+            const price21kSell = gramPriceKaser * 0.86;
+            const price18kSell = gramPriceKaser * 0.74; 
 
-            const otmaniCoinWeight = 8;
-            const otmaniCoinPrice = price21kBuy * otmaniCoinWeight;
+            const englishCoinWeight = 8;
+            const englishCoinPrice = price21kBuy * englishCoinWeight;
+            const halfEnglishCoinPrice = (englishCoinPrice/2);
+            const quarterEnglishCoinPrice = (englishCoinPrice/4);
+
+            const otmaniCoinWeight = 7.20;
+            const   otmaniCoinPrice = price21kBuy *otmaniCoinWeight;
+            const halfOtmaniCoinPrice = otmaniCoinPrice/2;
+            const quarterOtmaniCoinPrice = otmaniCoinPrice/4;
+
+            
 
             const today = new Date();
             const formattedDate = new Intl.DateTimeFormat('ar-EG', { dateStyle: 'full' }).format(today);
@@ -501,28 +506,28 @@
 *سعر الأونصة*: ${ouncePrice}
 ______________________________
 *سعر غرام الشراء* \`بدون أجار مصنعية\`
-\`عيار 18\`: ${price18kBuy.toFixed(2)}$
-\`عيار 21\`: ${price21kBuy.toFixed(2)}
+\`عيار 18\`: $${price18kBuy.toFixed(2)}
+\`عيار 21\`: $${price21kBuy.toFixed(2)}
 ______________________________
 *غرام المبيع* \`بدون أجار مصنعية\`
-\`عيار 18\`: ${price18kSell.toFixed(2)}
-\`عيار 21\`: ${price21kSell.toFixed(2)}
+\`عيار 18\`: $${price18kSell.toFixed(2)}
+\`عيار 21\`: $${price21kSell.toFixed(2)}
 ______________________________
 *الليرة الإنجليزي* \`بدون أجار مصنعية\`
-\`ليرة\`: ${price18kSell.toFixed(2)}
-\`نص ليرة\`: ${price21kSell.toFixed(2)}
-\`ربع ليرة\`: ${price21kSell.toFixed(2)}
+\`ليرة\`: $${englishCoinPrice.toFixed(2)}
+\`نص ليرة\`: $${halfEnglishCoinPrice.toFixed(2)}
+\`ربع ليرة\`: $${quarterEnglishCoinPrice.toFixed(2)}
 ______________________________
 *سعر الليرة العثماني* \`بدون أجار مصنعية\`
-\`ليرة\`: ${price18kSell.toFixed(2)}
-\`نص ليرة\`: ${price21kSell.toFixed(2)}
-\`ربع ليرة\`: ${price21kSell.toFixed(2)}
+\`ليرة\`: $${otmaniCoinPrice.toFixed(2)}
+\`نص ليرة\`: $${halfOtmaniCoinPrice.toFixed(2)}
+\`ربع ليرة\`: $${quarterOtmaniCoinPrice.toFixed(2)}
 
 > اسعار اونصة الذهب الفوري تخضع للعرض والطلب في تداول  البورصات العالمية في حال كان لديك أي استفسار او اسئلة لدينا فريق عمل جاهز للتواصل معكم
 
-مجوهرات وسام سكاف 
+مجوهرات لبنان  
 71808465
-03677037
+
 
 `;
             
@@ -609,7 +614,36 @@ ______________________________
            function drawTable(ctx) {
 
 
+            const ouncePrice = parseFloat(document.getElementById('ouncePrice').value);
+            if (isNaN(ouncePrice) || ouncePrice <= 0) {
+                alert("Please enter a valid ounce price!");
+                return;
+            }
 
+            let input1Value = parseFloat(document.getElementById('input1').value);
+            let input2Value = parseFloat(document.getElementById('input2').value);
+            const gramPrice = ((ouncePrice + input1Value) * 32*1.005) /1000;
+           
+            const price24kBuy = gramPrice;
+            const price21kBuy = gramPrice * 0.875;
+            const price18kBuy = gramPrice * 0.75;
+
+            const gramPriceKaser = ((ouncePrice + input2Value) * 31.99)/1000;
+
+            //const margin = 5;
+            const price24kSell = gramPriceKaser;
+            const price21kSell = gramPriceKaser * 0.86;
+            const price18kSell = gramPriceKaser * 0.74; 
+
+            const englishCoinWeight = 8;
+            const englishCoinPrice = price21kBuy * englishCoinWeight;
+            const halfEnglishCoinPrice = (englishCoinPrice/2);
+            const quarterEnglishCoinPrice = (englishCoinPrice/4);
+
+            const otmaniCoinWeight = 7.20;
+            const   otmaniCoinPrice = price21kBuy *otmaniCoinWeight;
+            const halfOtmaniCoinPrice = otmaniCoinPrice/2;
+            const quarterOtmaniCoinPrice = otmaniCoinPrice/4;
 
                const today = new Date();
                const formattedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(today);
@@ -617,12 +651,12 @@ ______________________________
                // Table data
                const headers = [formattedDate, 'البيع', 'الشراء'];
                const rows = [
-                   ['18k Gold', '150', '140'],
-                   ['21k Gold', '180', '170'],
-                   ['Ounce Watani', '7200', '7100'],
-                   ['Ounce Valcambi', '7400', '7300'],
-                   [' Lira English', '2000', '1950'],
-                   [' Lira Ottman', '2200', '2150']
+                   ['18k Gold', price18kBuy.toFixed(2)+'$', price18kSell.toFixed(2)+'$'],
+                   ['21k Gold', price21kBuy.toFixed(2)+'$', price21kSell.toFixed(2)+'$'],
+                   ['Ounce Watani', (ouncePrice+30)+'$', (ouncePrice-30)+'$'],
+                   ['Ounce Valcambi', (ouncePrice+60)+'$', (ouncePrice-15)+'$'],
+                   [' Lira English', englishCoinPrice.toFixed(2)+'$', (englishCoinPrice-10).toFixed(2)+'$'],
+                   [' Lira Ottman', otmaniCoinPrice.toFixed(2)+'$', (otmaniCoinPrice-10).toFixed(2)+'$']
                ];
        
                // Set general text properties
@@ -633,9 +667,9 @@ ______________________________
 
                const text = "Price of Ounce";
                 ctx.fillText(text, 540, 420);
-                const text1 = "2700$";
+                const text1 = ouncePrice +' $';
                 ctx.fillText(text1, 540, 480);
-                const phone = "+96171808465";
+                const phone = "71808465";
                 ctx.fillText(phone, 950, 1850);
        
                // Table properties
