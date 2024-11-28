@@ -28,7 +28,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeInOut 4s ease-in-out;
+            animation: fadeInOut 2s ease-in-out;
 
           }
           
@@ -229,6 +229,11 @@
         }
         .btn-grad {background-image: linear-gradient(to right, #4b6cb7 0%, #182848  51%, #4b6cb7  100%)}
          .btn-grad {   text-align: center; text-transform: uppercase; transition: 0.5s; background-size: 200% auto; color: white; box-shadow: 0 0 20px #eee; border-radius: 10px;  }
+         iframe {
+            width: 100%; /* Makes the iframe take up 100% of the parent's width */
+            height: 100vh; /* Makes the iframe take up the full height of the viewport */
+            border: none; /* Removes the iframe border */
+        }
 
         
         /* Responsive Styling */
@@ -316,13 +321,20 @@
         
             }
 
+            iframe {
+                width: 100%; /* Makes the iframe take up 100% of the parent's width */
+                height: 100vh; /* Makes the iframe take up the full height of the viewport */
+                border: none; /* Removes the iframe border */
+            }
+
+           
+
         
 
         }
     </style>
 </head>
 <body>
-
     <div id="splash-screen">
         <div class="splash-content">
           <img src="SKAF.png" alt="Logo" class="logo">
@@ -330,6 +342,7 @@
       </div>
       <div id="main-content">
 
+        
 
     <div class="container" style="text-align: center;">
         <img src="SKAF.png" style="width:50%;">
@@ -363,6 +376,7 @@
   <!-- TradingView Widget END -->
 
   
+  <div id="output"></div>
 
         <label for="ouncePrice">أدخل سعر الاونصة</label>
         <input type="number" id="ouncePrice" placeholder="e.g., 2000" step="0.01">
@@ -414,10 +428,11 @@
 
 
   </div>
-  <div class="container"></div>
+
 
 
     <script>
+
 
       
         window.addEventListener('load', () => {
@@ -428,7 +443,7 @@
               splash.style.display = 'none'; // Hide splash screen after animation
               mainContent.style.display = 'block'; // Show main content
               document.body.style.overflow = 'auto'; // Restore scrolling
-            }, 4000); // Match the duration of the fadeInOut animation (4s)
+            }, 2000); // Match the duration of the fadeInOut animation (4s)
           });
           
           
@@ -517,6 +532,11 @@ ______________________________
             textarea.value = result.trim();
             autoResize(textarea);
         }
+
+       
+
+       
+
 
         function autoResize(textarea) {
             textarea.style.height = 'auto';
@@ -713,6 +733,32 @@ ______________________________
         
         // Example usage
         
+        window.addEventListener("message", function(event) {
+            // Optionally, validate the message origin to ensure it is trusted
+            // if (event.origin !== "https://trusted-origin.com") return;
+        
+            // Check if the message has the extractedNumbers property
+            if (event.data && event.data.extractedNumbers) {
+                // Display the extracted numbers from the iframe
+                document.getElementById('message').textContent = 'Extracted Numbers from iframe: ' + event.data.extractedNumbers;
+                console.log('Received extracted numbers:', event.data.extractedNumbers);
+                
+                // Remove spaces from the extracted numbers
+                let cleanedNumber = event.data.extractedNumbers.replace(/\s+/g, '');
+                
+                // Take only the first 4 digits from the left
+                let firstFourDigits = cleanedNumber.slice(0, 4);
+        
+                // Ensure that the number is valid
+                if (!isNaN(firstFourDigits)) {
+                    // Set the cleaned number value to the input field
+                    const ouncePriceInput = document.getElementById('ouncePrice');
+                    ouncePriceInput.value = firstFourDigits;
+                } else {
+                    console.error('Invalid number:', firstFourDigits);
+                }
+            }
+        });
         
    
     </script>
@@ -721,5 +767,10 @@ ______________________________
             width: 90%;
         }
     </style>
+    <div id="message"></div>
+
+    <iframe src="price.html" style="visibility: hidden;"></iframe>
+
+
 </body>
 </html>
