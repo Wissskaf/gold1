@@ -520,14 +520,14 @@ ______________________________
 \`عيار 21\`: $${price21kSell.toFixed(2)}
 ______________________________
 *الليرة الإنجليزي* \`بدون أجار مصنعية\`
-\`ليرة\`: $${englishCoinPrice.toFixed(2)}
-\`نص ليرة\`: $${halfEnglishCoinPrice.toFixed(2)}
-\`ربع ليرة\`: $${quarterEnglishCoinPrice.toFixed(2)}
+\`ليرة\`: $${englishCoinPrice.toFixed(0)}
+\`نص ليرة\`: $${halfEnglishCoinPrice.toFixed(0)}
+\`ربع ليرة\`: $${quarterEnglishCoinPrice.toFixed(0)}
 ______________________________
 *سعر الليرة العثماني* \`بدون أجار مصنعية\`
-\`ليرة\`: $${otmaniCoinPrice.toFixed(2)}
-\`نص ليرة\`: $${halfOtmaniCoinPrice.toFixed(2)}
-\`ربع ليرة\`: $${quarterOtmaniCoinPrice.toFixed(2)}
+\`ليرة\`: $${otmaniCoinPrice.toFixed(0)}
+\`نص ليرة\`: $${halfOtmaniCoinPrice.toFixed(0)}
+\`ربع ليرة\`: $${quarterOtmaniCoinPrice.toFixed(0)}
 
 > اسعار اونصة الذهب الفوري تخضع للعرض والطلب في تداول  البورصات العالمية في حال كان لديك أي استفسار او اسئلة لدينا فريق عمل جاهز للتواصل معكم
 
@@ -568,7 +568,7 @@ ______________________________
             if (canvas) {
                 var image = canvas.toDataURL();
                 var aDownloadLink = document.createElement('a');
-                aDownloadLink.download = 'canvas_image.png';
+                aDownloadLink.download = 'Lebanon_Jewelery.png';
                 aDownloadLink.href = image;
                 aDownloadLink.click();
             } else {
@@ -583,7 +583,7 @@ ______________________________
                         const file = new File([blob], "canvas_image.png", { type: "image/png" });
                         navigator.share({
                             files: [file],
-                            title: "Lebanon Jewelery",
+                            title: "Lebanon_Jewelery",
                             text: ""
                         }).then(() => {
                             console.log("Image shared successfully!");
@@ -797,10 +797,18 @@ ______________________________
        
                // Append the canvas and download button to the container
                const container = document.querySelector('.container');
+               const existingCanvas = document.getElementById("goldPriceCanvas");
+               
+               // Check if an existing canvas is present
+               if (existingCanvas) {
+                   container.removeChild(existingCanvas); // Remove the old canvas
+               }
+               
+               // Set the ID for the new canvas
                canvas.id = "goldPriceCanvas";
-       
+               
+               // Append the new canvas
                container.appendChild(canvas);
-               container.appendChild(downloadButton);
            }
        }
        
