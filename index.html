@@ -427,7 +427,9 @@
         <button class="copy-btn btn-grad"  ><img src="whatsapp.svg"  style="width: 24px; height: 24px; margin-left: 8px; cursor: pointer;" /></button>
         </a>  
         <button class="btn-grad"  onclick="createCanvasWithTable()">Image</button>
-            <button class="btn-grad"  onclick="download()">download Image</button>
+            <button class="btn-grad"  onclick="download()">Download Image</button>
+            <button class="btn-grad"  onclick="shareCanvas()">Share Image</button>
+
 
 
 
@@ -573,6 +575,30 @@ ______________________________
                 console.error('Canvas element not found.');
             }
         }
+        function shareCanvas() {
+            var canvas = document.getElementsByTagName("canvas")[0]; // Select the first canvas element
+            if (canvas) {
+                canvas.toBlob(function(blob) {
+                    if (navigator.share) {
+                        const file = new File([blob], "canvas_image.png", { type: "image/png" });
+                        navigator.share({
+                            files: [file],
+                            title: "Shared Canvas Image",
+                            text: "Check out this image created on the canvas!"
+                        }).then(() => {
+                            console.log("Image shared successfully!");
+                        }).catch(err => {
+                            console.error("Error sharing the image:", err);
+                        });
+                    } else {
+                        console.error("Web Share API is not supported in this browser.");
+                    }
+                }, "image/png");
+            } else {
+                console.error("Canvas element not found.");
+            }
+        }
+        
         
 
         function createCanvasWithTable() {
@@ -608,7 +634,7 @@ ______________________________
                img.onload = () => {
                    const imgWidth = 600; // Logo width
                    const imgHeight = 200; // Logo height
-                   const topPadding = 100; // Padding from the top
+                   const topPadding = 50; // Padding from the top
                    const lowerPadding =900;
        
                    // Draw the logo at the top center
@@ -621,7 +647,7 @@ ______________________________
                lower.onload = () => {
                 const imgWidth = 720; // Logo width
                const imgHeight = 500; // Logo height
-               const lowerPadding =1325;
+               const lowerPadding =1300;
 
                 ctx.drawImage(lower, (canvas.width - imgWidth) / 2, lowerPadding, imgWidth, imgHeight);
                }
@@ -669,27 +695,37 @@ ______________________________
                // Table data
                const headers = [formattedDate, 'Buy', 'Sell'];
                const rows = [
-                   ['18k Gold', price18kBuy.toFixed(2)+'$', price18kSell.toFixed(2)+'$'],
-                   ['21k Gold', price21kBuy.toFixed(2)+'$', price21kSell.toFixed(2)+'$'],
-                   ['Ounce Watani', (ouncePrice+30)+'$', (ouncePrice-30)+'$'],
-                   ['Ounce Valcambi', (ouncePrice+60)+'$', (ouncePrice-15)+'$'],
-                   [' Lira English', englishCoinPrice.toFixed(2)+'$', (englishCoinPrice-10).toFixed(2)+'$'],
-                   [' Lira Ottman', otmaniCoinPrice.toFixed(2)+'$', (otmaniCoinPrice-10).toFixed(2)+'$']
+                   ['18k Gold', '$ ' +price18kBuy.toFixed(2),'$ ' + price18kSell.toFixed(2)],
+                   ['21k Gold', '$ ' +price21kBuy.toFixed(2), '$ ' +price21kSell.toFixed(2)],
+                   ['Ounce Watani', '$ ' +(ouncePrice+30), '$ ' +(ouncePrice-30)],
+                   ['Ounce Valcambi', '$ ' +(ouncePrice+60), '$ ' +(ouncePrice-15)],
+                   [' Lira English', '$ ' +englishCoinPrice.toFixed(0), '$ ' +(englishCoinPrice-10).toFixed(0)],
+                   [' Lira Ottman', '$ ' +otmaniCoinPrice.toFixed(0), '$ ' +(otmaniCoinPrice-10).toFixed(0)]
                ];
        
                // Set general text properties
-               ctx.font = "72px bold Parkinsans";
+               ctx.font = "68px Parkinsans";
                ctx.fillStyle = "#ffffff"; // Text color
                ctx.textAlign = "center";
                ctx.direction = "rtl"; // RTL for Arabic text
 
                const text = "سعر الأونصة";
-                ctx.fillText(text, 540, 420);
+                ctx.fillText(text, 540, 360);
                 const text1 = '$ '+ouncePrice ;
-                ctx.fillText(text1, 540, 500);
-                const phone = "71808465";
-                ctx.fillText(phone, 950, 1850);
-       
+                ctx.fillText(text1, 540, 450);
+
+                ctx.fillStyle = "rgba(248, 210, 16, 0.5)";
+
+// Draw a filled rectangle
+                ctx.fillRect(0, 1830, 1080, 100); // x, y, width, height
+                ctx.fillStyle = "#ffffff";
+
+                ctx.font = "42px Parkinsans";
+
+                const phone = "For Your Requests Please Contact 71/808465";
+                ctx.fillText(phone, 540, 1890);
+
+                
                // Table properties
                const tableStartX = 100; // Padding on the left
                const tableWidth = canvas.width - 200; // Width accounting for padding
@@ -720,7 +756,7 @@ ______________________________
        
                        // Draw cell text
                        ctx.fillStyle = "#ffffff"; // Black text
-                       ctx.font = "36px bold Parkinsans , Verdana";
+                       ctx.font = "34px bold Parkinsans , Verdana";
                        ctx.fillText(cell, xPosition + colWidth / 2, yPosition + rowHeight / 2 + 12);
                    });
                });
